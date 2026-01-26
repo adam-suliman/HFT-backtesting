@@ -1,0 +1,61 @@
+backtest-output.txt
+# Build artifacts
+*.o
+*.obj
+*.lo
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+*.exe
+*.out
+*.app
+*.pdb
+*.ilk
+*.pch
+*.idb
+*.ipch
+*.iobj
+*.ipdb
+*.tlog
+*.log
+*.tmp
+*.cache
+*.dSYM/
+backtester
+
+# Build directories
+build/
+build-*/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.ninja
+.ninja_*
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.VC.opendb
+*.opendb
+*.sdf
+*.opensdf
+x64/
+Win32/
+Debug/
+Release/
+ipch/
+
+# VS Code
+.vscode/
+
+# Local data files
+lob.csv
+trades.csv
