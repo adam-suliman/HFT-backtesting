@@ -48,15 +48,11 @@ index,timestamp,side,price,volume
 - **`price`**: not used for market execution, but kept for auditing (e.g., original intent).
 - **`volume`**: trade size (double).
 
-> If your column is named `amount` instead of `volume`, either rename in CSV or adjust parsing at `CSVParser::parseTrades` (column index 4).
 
-### 3.3 BOM & sorting
-- UTF‑8 BOM on the first line is detected and removed.
-- Files are sorted by `timestamp` after load; order of equal timestamps is preserved as read.
 
 ---
 
-## 4) Simulation semantics (very important)
+## 4) Simulation semantics
 - **Event ordering**: For each trade `T`, the engine **advances** the order book to the **latest snapshot with `timestamp <= T.timestamp`** and uses that book to execute `T`. If **no snapshot exists yet** (book starts later), `T` is **skipped** with a warning.
 - **Execution model**: Trades are treated as **market orders**:
   - `buy` consumes **asks** starting from best ask upward.
@@ -183,22 +179,3 @@ main.cpp
 - Avoid logging every event when running at scale.
 - If CSVs are huge, consider streaming (process lines on‑the‑fly) or swap in a high‑performance CSV library.
 - Pre‑`reserve()` vectors when possible and reuse objects in hot paths.
-
----
-
-## 12) Extending the tool
-- **CLI arguments**: Parse `--lob path`, `--trades path` instead of hardcoding.
-- **Fees & spreads**: Add maker/taker fees; show fee‑adjusted P&L.
-- **Passive orders**: Keep a book of resting strategy orders; fill when the market trades through that level.
-- **Latency**: Delay strategy orders by X µs; optionally **miss** the triggering snapshot.
-- **Queue position**: Conservative assumption (fill only if traded volume at your price since placement exceeds pre‑existing queue).
-- **Impact modeling**: Apply your fills to subsequent snapshots (risk: divergence from recorded data).
-
----
-
-## 14) Glossary
-- **Snapshot**: State of the order book (bids/asks) at a specific time.
-- **Best bid/ask**: Highest bid price / lowest ask price available.
-- **Market order**: Order that executes immediately against the book.
-- **VWAP**: Volume‑weighted average price of execution.
-- **Mark‑to‑market**: Valuing open position at current market price.
